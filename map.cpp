@@ -30,21 +30,63 @@ Map::Map(int width, int height) : _width(width), _height(height) {
 	map.resize(height, std::vector<Grid>(width, Grid(GridType::EMPTY)));
 }
 
-Map::~Map() {}
+int Map::getWidth() const {
+	return _width;
+}
 
-void Map::generate() {
-	// 初始化地图，全部设为墙壁
-	for (int y = 0; y < _height; ++y) {
-		for (int x = 0; x < _width; ++x) {
-			map[y][x].setType(GridType::EMPTY);
+int Map::getHeight() const {
+	return _height;
+}
+
+auto Map::getMap(int x, int y) const {
+	return map[y][x];
+}
+
+void Map::setGridType(int x, int y, GridType type) {
+		map[y][x].setType(type);
+}
+
+GridType toGridType(int value) {
+	switch (value) {
+		case 0: return GridType::WALL;
+		case 1: return GridType::EMPTY;
+		case 2: return GridType::START;
+		case 3: return GridType::END;
+		default: return GridType::TRAP;
+	}
+}
+
+void EasyMapGenerator::generate(Map& map) {
+	// 使用预设的easy_map数据
+	int width = map.getWidth();
+	int height = map.getHeight();
+
+	// 遍历预设地图数据，设置对应格子类型
+	for (size_t y = 0; y < 15; ++y) {
+		for (size_t x = 0; x < 15; ++x) {
+			map.setGridType(x, y, toGridType(easy_map[y][x]));
 		}
 	}
 }
 
-void Map::display() const {
-	for (int y = 0; y < _height; ++y) {
-		for (int x = 0; x < _width; ++x) {
-			switch (map[y][x].getType()) {
+void HardMapGenerator::generate(Map& map) {
+	// 使用预设的hard_map数据
+	int width = map.getWidth();
+	int height = map.getHeight();
+
+	// 遍历预设地图数据，设置对应格子类型
+	for (size_t y = 0; y < 28; ++y) {
+		for (size_t x = 0; x < 28; ++x) {
+			map.setGridType(x, y, toGridType(hard_map[y][x]));
+		}
+	}
+}
+
+void EasyXMapDisplay::display(const Map& map){
+	for (size_t y = 0; y < map.getHeight(); ++y) {
+		for (size_t x = 0; x < map.getWidth(); ++x) {
+			auto temp = map.getMap(x, y);
+			switch (temp.getType()) {
 			case GridType::WALL:
 				setfillcolor(BLACK);
 				break;
@@ -65,3 +107,6 @@ void Map::display() const {
 		}
 	}
 }
+
+
+
