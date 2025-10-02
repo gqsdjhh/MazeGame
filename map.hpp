@@ -29,7 +29,7 @@ public:
 	Map(int width, int height);
 	int getWidth() const;
 	int getHeight() const;
-	auto getMap(int x, int y) const;
+	const Grid& getMap(int x, int y) const;
 	void setGridType(int x, int y, GridType type);
 	~Map() = default;
 private:

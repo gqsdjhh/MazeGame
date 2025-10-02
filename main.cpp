@@ -3,7 +3,7 @@
 
 
 int main() {
-    Game game(true);  // 或 Game game(true) 启动困难模式
+    Game game(true);  
     game.run();
     return 0;
 }
