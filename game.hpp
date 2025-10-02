@@ -1,14 +1,18 @@
 #pragma once
 
 #include "graphics.h"
+#include "map.hpp"
+#include "factory.hpp"  
 
 class Game {
 public:
-    Game(int width, int height);
+    Game(bool isHard = false);  // 增加难度参数
     ~Game();
     void run();
 private:
+    Factory factory;
     Map game_map;
     bool runningflag;
-	void handleEvent(const ExMessage& msg);
+    MapDisplay* display;  // 地图显示器指针
+    void handleEvent(const ExMessage& msg);
 };

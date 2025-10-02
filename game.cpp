@@ -1,19 +1,33 @@
-#include "graphics.h"
-
 #include "game.hpp"
 #include "factory.hpp"
+#include <memory>  
 
+Game::Game(bool isHard) : game_map(10, 10), runningflag(true), display(nullptr) {
+    // 使用工厂创建地图生成器
+    std::unique_ptr<MapGenerator> generator;
+    if (isHard) {
+        generator.reset(factory.createHardMapGenerator());
+        initgraph(28 * 20, 28 * 20);
+		game_map = Map(28, 28);
+    }
+    else {
+        generator.reset(factory.createEasyMapGenerator());
+		initgraph(15 * 20, 15 * 20);
+		game_map = Map(15, 15);
+    }
+    generator->generate(game_map);
 
-Game::Game(int width, int height) : game_map(width, height), runningflag(true) {
-    initgraph(width * 20, height * 20);
     setbkcolor(WHITE);
-    game_map.generate();
     BeginBatchDraw();
+
+    // 使用工厂创建地图显示器
+    display = factory.createEasyXMapDisplay();
 }
 
 Game::~Game() {
     EndBatchDraw();
     closegraph();
+    delete display;
 }
 
 void Game::run() {
@@ -26,7 +40,10 @@ void Game::run() {
         }
 
         cleardevice();
-        game_map.display();
+        
+        if (display) {
+            display->display(game_map);
+        }
         FlushBatchDraw();
 
         DWORD end_time = GetTickCount();
@@ -41,8 +58,8 @@ void Game::handleEvent(const ExMessage& msg) {
     if (msg.message == WM_LBUTTONDOWN) {
         int index_x = msg.x / 20;
         int index_y = msg.y / 20;
-        // 这里可以扩展为地图交互等
+        // 保留原有逻辑
     }
-    // 可以扩展更多事件
+    // 保留原有逻辑
 }
 
