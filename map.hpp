@@ -4,7 +4,7 @@
 #include <vector>
 
 enum class GridType {
-	EMPTY,      // 空地
+	EMPTY = 0,      // 空地
 	WALL,       // 墙壁
 	START,      // 起点
 	END,        // 终点

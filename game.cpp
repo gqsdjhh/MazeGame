@@ -78,25 +78,25 @@ void Game::handleEvent(const ExMessage& msg) {
     if (msg.message == WM_KEYDOWN) {
 		switch (msg.vkcode)
         {
-        case VK_UP:
+        case 'W':
 			if (!_game_map.GetMap(_player.GetXY().first, _player.GetXY().second - 1).IsWall()) {
 				_player.Move(0, -1);
 				PlayerInteraction();
 			}
 			break;
-		case VK_DOWN:
+		case 'S':
 			if (!_game_map.GetMap(_player.GetXY().first, _player.GetXY().second + 1).IsWall()) {
 				_player.Move(0, 1);
 				PlayerInteraction();
 			}
 			break;
-		case VK_LEFT:
+        case 'A':
 			if (!_game_map.GetMap(_player.GetXY().first - 1, _player.GetXY().second).IsWall()) {
 				_player.Move(-1, 0);
 				PlayerInteraction();
 			}
 			break;
-		case VK_RIGHT:
+		case 'D':
 			if (!_game_map.GetMap(_player.GetXY().first + 1, _player.GetXY().second).IsWall()) {
 				_player.Move(1, 0);
 				PlayerInteraction();
