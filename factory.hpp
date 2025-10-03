@@ -5,9 +5,9 @@
 class Factory {
 public:
     // 创建简单地图生成器
-    MapGenerator* createEasyMapGenerator();
+    MapGenerator* CreateEasyMapGenerator();
     // 创建困难地图生成器
-    MapGenerator* createHardMapGenerator();
+    MapGenerator* CreateHardMapGenerator();
     // 创建EasyX地图显示器
-    MapDisplay* createEasyXMapDisplay();
+    MapDisplay* CreateEasyXMapDisplay();
 };

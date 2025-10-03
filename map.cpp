@@ -1,6 +1,6 @@
 #include "map.hpp"
 
-int easy_map[15][15] = {
+int EASY_MAP[15][15] = {
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 	{0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
 	{0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0},
@@ -18,7 +18,7 @@ int easy_map[15][15] = {
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 };
 
-int hard_map[28][28] = {
+int HARD_MAP[28][28] = {
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 	{0, 2, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0},
 	{0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0},
@@ -51,27 +51,27 @@ int hard_map[28][28] = {
 
 Grid::Grid(GridType type) : _type(type) {}
 
-bool Grid::isRoad() const {
+bool Grid::IsRoad() const {
 	return _type == GridType::EMPTY || _type == GridType::START || _type == GridType::END;
 }
 
-bool Grid::isExit() const {
+bool Grid::IsExit() const {
 	return _type == GridType::END;
 }
 
-bool Grid::isTrap() const {
+bool Grid::IsTrap() const {
 	return _type == GridType::TRAP;
 }
 
-bool Grid::isWall() const {
+bool Grid::IsWall() const {
 	return _type == GridType::WALL;
 }
 
-GridType Grid::getType() const {
+GridType Grid::GetType() const {
 	return _type;
 }
 
-void Grid::setType(GridType type) {
+void Grid::SetType(GridType type) {
 	_type = type;
 }
 
@@ -79,23 +79,23 @@ Map::Map(int width, int height) : _width(width), _height(height) {
 	map.resize(height, std::vector<Grid>(width, Grid(GridType::EMPTY)));
 }
 
-int Map::getWidth() const {
+int Map::GetWidth() const {
 	return _width;
 }
 
-int Map::getHeight() const {
+int Map::GetHeight() const {
 	return _height;
 }
 
-const Grid& Map::getMap(int x, int y) const {
+const Grid& Map::GetMap(int x, int y) const {
 	return map[y][x];
 }
 
-void Map::setGridType(int x, int y, GridType type) {
-		map[y][x].setType(type);
+void Map::SetGridType(int x, int y, GridType type) {
+		map[y][x].SetType(type);
 }
 
-GridType toGridType(int value) {
+GridType ToGridType(int value) {
 	switch (value) {
 		case 0: return GridType::WALL;
 		case 1: return GridType::EMPTY;
@@ -105,37 +105,29 @@ GridType toGridType(int value) {
 	}
 }
 
-void EasyMapGenerator::generate(Map& map) {
-	// 使用预设的easy_map数据
-	int width = map.getWidth();
-	int height = map.getHeight();
-
+void EasyMapGenerator::Generate(Map& map) {
 	// 遍历预设地图数据，设置对应格子类型
 	for (size_t y = 0; y < 15; ++y) {
 		for (size_t x = 0; x < 15; ++x) {
-			map.setGridType(x, y, toGridType(easy_map[y][x]));
+			map.SetGridType(x, y, ToGridType(EASY_MAP[y][x]));
 		}
 	}
 }
 
-void HardMapGenerator::generate(Map& map) {
-	// 使用预设的hard_map数据
-	int width = map.getWidth();
-	int height = map.getHeight();
-
+void HardMapGenerator::Generate(Map& map) {
 	// 遍历预设地图数据，设置对应格子类型
 	for (size_t y = 0; y < 28; ++y) {
 		for (size_t x = 0; x < 28; ++x) {
-			map.setGridType(x, y, toGridType(hard_map[y][x]));
+			map.SetGridType(x, y, ToGridType(HARD_MAP[y][x]));
 		}
 	}
 }
 
-void EasyXMapDisplay::display(const Map& map){
-	for (size_t y = 0; y < map.getHeight(); ++y) {
-		for (size_t x = 0; x < map.getWidth(); ++x) {
-			auto temp = map.getMap(x, y);
-			switch (temp.getType()) {
+void EasyXMapDisplay::Display(const Map& map){
+	for (size_t y = 0; y < map.GetHeight(); ++y) {
+		for (size_t x = 0; x < map.GetWidth(); ++x) {
+			auto temp = map.GetMap(x, y);
+			switch (temp.GetType()) {
 			case GridType::WALL:
 				setfillcolor(BLACK);
 				break;

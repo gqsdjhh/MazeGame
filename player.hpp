@@ -5,12 +5,12 @@
 class Player : public Observable {  // 继承可观察接口
 public:
     Player(int startX = 1, int startY = 1);
-    std::pair<int, int> getXY() const;
-    void move(int dx, int dy);
-    int getLives() const;
-    void loseLife();
-    bool isAlive();
-    void Playerdisplay() const;
+    std::pair<int, int> GetXY() const;
+    void Move(int dx, int dy);
+    int GetLives() const;
+    void LoseLife();
+    bool IsAlive();
+    void PlayerDisplay() const;
     ~Player() = default;
 private:
     int _x;

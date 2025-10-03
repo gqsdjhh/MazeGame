@@ -7,24 +7,24 @@
 Game::Game(bool isHard) : _game_map(10, 10), _runningflag(true), _display(nullptr) {
     std::unique_ptr<MapGenerator> generator;
     if (isHard) {
-        generator.reset(_factory.createHardMapGenerator());
+        generator.reset(_factory.CreateHardMapGenerator());
         initgraph(28 * 20, 28 * 20);
         _game_map = Map(28, 28);
     }
     else {
-        generator.reset(_factory.createEasyMapGenerator());
+        generator.reset(_factory.CreateEasyMapGenerator());
 		initgraph(15 * 20, 15 * 20);
         _game_map = Map(15, 15);
     }
-    generator->generate(_game_map);
 
     setbkcolor(WHITE);
     BeginBatchDraw();
 
     // 使用工厂创建地图显示器
-    _display = _factory.createEasyXMapDisplay();
+    _display = _factory.CreateEasyXMapDisplay();
+    generator->Generate(_game_map);
     _uiObserver = new UIObserver();
-    _player.addObserver(_uiObserver);
+    _player.AddObserver(_uiObserver);
 }
 
 Game::~Game() {
@@ -33,7 +33,7 @@ Game::~Game() {
     delete _display;
 }
 
-void Game::run() {
+void Game::Run() {
     ExMessage msg;
     while (_runningflag) {
         auto start_time = GetTickCount();
@@ -45,12 +45,12 @@ void Game::run() {
         cleardevice();
         
         if (_display) {
-            _display->display(_game_map);
-			_player.Playerdisplay();
+            _display->Display(_game_map);
+			_player.PlayerDisplay();
         }
         FlushBatchDraw();
 
-		if (!_player.isAlive()) {
+		if (!_player.IsAlive()) {
 			_runningflag = false;
 		}
 
@@ -62,14 +62,14 @@ void Game::run() {
     }
 }
 
-void Game::playInteraction() {
-	auto pos = _player.getXY();
-	auto grid = _game_map.getMap(pos.first, pos.second);
-	if (grid.isTrap()) {
-		_player.loseLife();  // 玩家生命值减少（会自动通知观察者）
+void Game::PlayerInteraction() {
+	auto pos = _player.GetXY();
+	auto grid = _game_map.GetMap(pos.first, pos.second);
+	if (grid.IsTrap()) {
+		_player.LoseLife();  // 玩家生命值减少
 	}
-	else if (grid.isExit()) {
-		_player.notifyGameOver(true);  // 通知游戏胜利
+	else if (grid.IsExit()) {
+		_player.NotifyGameOver(true);  // 通知游戏胜利
 		_runningflag = false;
 	}
 }
@@ -79,27 +79,27 @@ void Game::handleEvent(const ExMessage& msg) {
 		switch (msg.vkcode)
         {
         case VK_UP:
-			if (!_game_map.getMap(_player.getXY().first, _player.getXY().second - 1).isWall()) {
-				_player.move(0, -1);
-				playInteraction();
+			if (!_game_map.GetMap(_player.GetXY().first, _player.GetXY().second - 1).IsWall()) {
+				_player.Move(0, -1);
+				PlayerInteraction();
 			}
 			break;
 		case VK_DOWN:
-			if (!_game_map.getMap(_player.getXY().first, _player.getXY().second + 1).isWall()) {
-				_player.move(0, 1);
-				playInteraction();
+			if (!_game_map.GetMap(_player.GetXY().first, _player.GetXY().second + 1).IsWall()) {
+				_player.Move(0, 1);
+				PlayerInteraction();
 			}
 			break;
 		case VK_LEFT:
-			if (!_game_map.getMap(_player.getXY().first - 1, _player.getXY().second).isWall()) {
-				_player.move(-1, 0);
-				playInteraction();
+			if (!_game_map.GetMap(_player.GetXY().first - 1, _player.GetXY().second).IsWall()) {
+				_player.Move(-1, 0);
+				PlayerInteraction();
 			}
 			break;
 		case VK_RIGHT:
-			if (!_game_map.getMap(_player.getXY().first + 1, _player.getXY().second).isWall()) {
-				_player.move(1, 0);
-				playInteraction();
+			if (!_game_map.GetMap(_player.GetXY().first + 1, _player.GetXY().second).IsWall()) {
+				_player.Move(1, 0);
+				PlayerInteraction();
 			}
 			break;
 		case VK_ESCAPE:

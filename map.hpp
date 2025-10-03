@@ -14,12 +14,12 @@ enum class GridType {
 class Grid {
 public:
 	Grid(GridType type);
-	bool isRoad() const;
-	bool isExit() const;
-	bool isTrap() const;
-	bool isWall() const;
-	GridType getType() const;
-	void setType(GridType type);
+	bool IsRoad() const;
+	bool IsExit() const;
+	bool IsTrap() const;
+	bool IsWall() const;
+	GridType GetType() const;
+	void SetType(GridType type);
 private:
 	GridType _type;
 };
@@ -27,10 +27,10 @@ private:
 class Map {
 public:
 	Map(int width, int height);
-	int getWidth() const;
-	int getHeight() const;
-	const Grid& getMap(int x, int y) const;
-	void setGridType(int x, int y, GridType type);
+	int GetWidth() const;
+	int GetHeight() const;
+	const Grid& GetMap(int x, int y) const;
+	void SetGridType(int x, int y, GridType type);
 	~Map() = default;
 private:
 	int _width;
@@ -40,26 +40,26 @@ private:
 
 class MapGenerator {
 public:
-	virtual void generate(Map& map) = 0;
+	virtual void Generate(Map& map) = 0;
 	virtual ~MapGenerator() = default;
 };
 
 class EasyMapGenerator : public MapGenerator {
 public:
-	void generate(Map& map) override;
+	void Generate(Map& map) override;
 };
 
 class HardMapGenerator : public MapGenerator {
 public:
-	void generate(Map& map) override;
+	void Generate(Map& map) override;
 };
 
 class MapDisplay {
 public:
-	virtual void display(const Map& map) = 0;
+	virtual void Display(const Map& map) = 0;
 };
 
 class EasyXMapDisplay : public MapDisplay {
 public:
-	void display(const Map& map) override;
+	void Display(const Map& map) override;
 };

@@ -2,11 +2,11 @@
 
 #include <vector>
 
-void Observable::addObserver(Observer* observer) {
+void Observable::AddObserver(Observer* observer) {
     observers.push_back(observer);
 }
 
-void Observable::removeObserver(Observer* observer) {
+void Observable::RemoveObserver(Observer* observer) {
     auto it = std::find(observers.begin(), observers.end(), observer);
     if (it != observers.end()) {
         observers.erase(it);
@@ -14,29 +14,29 @@ void Observable::removeObserver(Observer* observer) {
 }
 
 // 通知生命值变化
-void Observable::notifyLivesChanged(const Player& player) {
+void Observable::NotifyLivesChanged(const Player& player) {
     for (auto obs : observers) {
-        obs->onPlayerLivesChanged(player);
+        obs->PlayerLivesChanged(player);
     }
 }
 
 // 通知游戏结束
-void Observable::notifyGameOver(bool isWin) {
+void Observable::NotifyGameOver(bool isWin) {
     for (auto obs : observers) {
-        obs->onGameOver(isWin);
+        obs->GameOver(isWin);
     }
 }
 
-void UIObserver::onPlayerLivesChanged(const Player& player) {
+void UIObserver::PlayerLivesChanged(const Player& player) {
     //// 显示剩余生命值
     //settextcolor(RED);
     //setbkmode(TRANSPARENT);
     //char text[20];
-    //sprintf(text, "Lives: %d", player.getLives());
+    //sprintf(text, "Lives: %d", player.GetLives());
     //outtextxy(10, 10, text);
 }
 
-void UIObserver::onGameOver(bool isWin) {
+void UIObserver::GameOver(bool isWin) {
     //// 显示游戏结束信息
     //settextcolor(isWin ? GREEN : RED);
     //settextstyle(24, 0, "SimHei");

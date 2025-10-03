@@ -8,16 +8,16 @@
 
 class Game {
 public:
-    Game(bool isHard = false);  // 增加难度参数
+    Game(bool is_hard = false);  
     ~Game();
-	void playInteraction();
-    void run();
+	void PlayerInteraction();
+    void Run();
 private:
     Factory _factory;
     Map _game_map;
 	Player _player;
     bool _runningflag;
-    MapDisplay* _display;  // 地图显示器指针
+    MapDisplay* _display;  
     UIObserver* _uiObserver;
     void handleEvent(const ExMessage& msg);
 };
