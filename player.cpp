@@ -21,6 +21,11 @@ int Player::getLives() const {
 void Player::loseLife() {
 	if (_lives > 0) {
 		--_lives;
+		notifyLivesChanged(*this);  // 通知观察者生命值变化
+
+		if (_lives <= 0) {
+			notifyGameOver(false);  // 通知游戏结束（失败）
+		}
 	}
 }
 

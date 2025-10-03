@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include "factory.hpp"
+#include "observer.hpp"
 #include <utility>
 #include <memory>  
 
@@ -22,6 +23,8 @@ Game::Game(bool isHard) : _game_map(10, 10), _runningflag(true), _display(nullpt
 
     // 使用工厂创建地图显示器
     _display = _factory.createEasyXMapDisplay();
+    _uiObserver = new UIObserver();
+    _player.addObserver(_uiObserver);
 }
 
 Game::~Game() {
@@ -33,7 +36,7 @@ Game::~Game() {
 void Game::run() {
     ExMessage msg;
     while (_runningflag) {
-        DWORD start_time = GetTickCount();
+        auto start_time = GetTickCount();
 
         while (peekmessage(&msg)) {
             handleEvent(msg);
@@ -51,8 +54,8 @@ void Game::run() {
 			_runningflag = false;
 		}
 
-        DWORD end_time = GetTickCount();
-        DWORD delta_time = end_time - start_time;
+        auto end_time = GetTickCount();
+        auto delta_time = end_time - start_time;
         if (delta_time < 16) {
             Sleep(16 - delta_time);
         }
@@ -60,14 +63,14 @@ void Game::run() {
 }
 
 void Game::playInteraction() {
-	// 可以实现玩家与地图的交互逻辑
-    auto pos = _player.getXY();
+	auto pos = _player.getXY();
 	auto grid = _game_map.getMap(pos.first, pos.second);
 	if (grid.isTrap()) {
-		_player.loseLife();
+		_player.loseLife();  // 玩家生命值减少（会自动通知观察者）
 	}
 	else if (grid.isExit()) {
-		_runningflag = false; // 游戏胜利，结束游戏
+		_player.notifyGameOver(true);  // 通知游戏胜利
+		_runningflag = false;
 	}
 }
 

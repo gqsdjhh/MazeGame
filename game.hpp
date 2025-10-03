@@ -3,6 +3,7 @@
 #include "graphics.h"
 #include "map.hpp"
 #include "player.hpp"
+#include "observer.hpp"
 #include "factory.hpp"  
 
 class Game {
@@ -17,5 +18,6 @@ private:
 	Player _player;
     bool _runningflag;
     MapDisplay* _display;  // µÿÕºœ‘ æ∆˜÷∏’Î
+    UIObserver* _uiObserver;
     void handleEvent(const ExMessage& msg);
 };
