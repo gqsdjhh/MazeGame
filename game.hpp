@@ -8,7 +8,7 @@
 
 class Game {
 public:
-    Game(bool is_hard = false);  
+    Game(bool is_hard);  
     ~Game();
     void PlayerInteraction();
     void UpdateFog();

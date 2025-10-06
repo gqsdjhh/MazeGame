@@ -67,7 +67,7 @@ void Game::Run() {
 
 void Game::UpdateFog() {
     auto pos = _player.GetXY();
-    const int viewRange = 2;  // 5x5范围（中心向外2格）
+    const int viewRange = 5;  // 5x5范围（中心向外2格）
 
     // 遍历5x5区域，标记为已探索
     for (int dy = -viewRange; dy <= viewRange; ++dy) {
@@ -76,8 +76,7 @@ void Game::UpdateFog() {
             int ny = pos.second + dy;
 
             // 检查坐标是否在地图范围内
-            if (nx >= 0 && nx < _game_map.GetWidth() &&
-                ny >= 0 && ny < _game_map.GetHeight()) {
+            if (nx >= 0 && nx < _game_map.GetWidth() && ny >= 0 && ny < _game_map.GetHeight()) {
                 // 直接修改格子的探索状态
                 _game_map.GetMap(nx, ny).SetExplored(true);
             }
