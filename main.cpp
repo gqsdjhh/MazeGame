@@ -2,7 +2,7 @@
 #include "game.hpp"
 
 int main() {
-    Game game(true);  
+    Game game(false);  
     game.Run();
     return 0;
 }

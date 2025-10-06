@@ -20,8 +20,11 @@ public:
 	bool IsWall() const;
 	GridType GetType() const;
 	void SetType(GridType type);
+	bool IsExplored() const;
+	void SetExplored(bool is_explored);
 private:
 	GridType _type;
+	bool _isExplored;
 };
 
 class Map {
@@ -29,7 +32,7 @@ public:
 	Map(int width, int height);
 	int GetWidth() const;
 	int GetHeight() const;
-	const Grid& GetMap(int x, int y) const;
+	Grid& GetMap(int x, int y);
 	void SetGridType(int x, int y, GridType type);
 	~Map() = default;
 private:
@@ -56,10 +59,10 @@ public:
 
 class MapDisplay {
 public:
-	virtual void Display(const Map& map) = 0;
+	virtual void Display(Map& map) = 0;
 };
 
 class EasyXMapDisplay : public MapDisplay {
 public:
-	void Display(const Map& map) override;
+	void Display(Map& map) override;
 };

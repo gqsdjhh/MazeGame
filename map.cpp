@@ -14,7 +14,7 @@ int EASY_MAP[15][15] = {
 	{0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
 	{0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
 	{0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-	{0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 3, 0},
+	{0, 4, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 3, 0},
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 };
 
@@ -75,6 +75,14 @@ void Grid::SetType(GridType type) {
 	_type = type;
 }
 
+bool Grid::IsExplored() const {
+	return _isExplored;
+}
+
+void Grid::SetExplored(bool is_explored) {
+	_isExplored = is_explored;
+}
+
 Map::Map(int width, int height) : _width(width), _height(height) {
 	map.resize(height, std::vector<Grid>(width, Grid(GridType::EMPTY)));
 }
@@ -87,7 +95,7 @@ int Map::GetHeight() const {
 	return _height;
 }
 
-const Grid& Map::GetMap(int x, int y) const {
+Grid& Map::GetMap(int x, int y){
 	return map[y][x];
 }
 
@@ -123,10 +131,17 @@ void HardMapGenerator::Generate(Map& map) {
 	}
 }
 
-void EasyXMapDisplay::Display(const Map& map){
+void EasyXMapDisplay::Display(Map& map){
 	for (size_t y = 0; y < map.GetHeight(); ++y) {
 		for (size_t x = 0; x < map.GetWidth(); ++x) {
 			auto temp = map.GetMap(x, y);
+
+			if (!temp.IsExplored()) {
+				setfillcolor(RGB(80, 80, 80));  // 灰色迷雾
+				fillrectangle(20, 20, 20, 20);
+				continue;
+			}
+
 			switch (temp.GetType()) {
 			case GridType::WALL:
 				setfillcolor(BLACK);
@@ -148,6 +163,31 @@ void EasyXMapDisplay::Display(const Map& map){
 		}
 	}
 }
+
+//// EasyXMapDisplay::DrawMap 方法中
+//void EasyXMapDisplay::DrawMap(const Map& map) {
+//	int gridSize = 30;
+//	for (int y = 0; y < map.GetHeight(); ++y) {
+//		for (int x = 0; x < map.GetWidth(); ++x) {
+//			int screenX = x * gridSize;
+//			int screenY = y * gridSize;
+//			const Grid& grid = map.GetMap(x, y);
+//
+//			// 未探索区域：绘制迷雾
+//			
+//
+//			// 已探索区域：正常绘制地形
+//			switch (grid.GetType()) {
+//			case GridType::WALL:    setfillcolor(BLACK); break;
+//			case GridType::TRAP:    setfillcolor(RED); break;
+//			case GridType::EXIT:    setfillcolor(GREEN); break;
+//			case GridType::START:   setfillcolor(YELLOW); break;
+//			default:                setfillcolor(WHITE);  // 空地
+//			}
+//			fillrectangle(screenX, screenY, screenX + gridSize, screenY + gridSize);
+//		}
+//	}
+//}
 
 
 

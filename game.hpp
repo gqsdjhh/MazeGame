@@ -10,7 +10,8 @@ class Game {
 public:
     Game(bool is_hard = false);  
     ~Game();
-	void PlayerInteraction();
+    void PlayerInteraction();
+    void UpdateFog();
     void Run();
 private:
     Factory _factory;

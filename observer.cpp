@@ -1,4 +1,5 @@
 #include "observer.hpp"
+#include "player.hpp"
 
 #include <vector>
 
@@ -28,19 +29,22 @@ void Observable::NotifyGameOver(bool isWin) {
 }
 
 void UIObserver::PlayerLivesChanged(const Player& player) {
-    //// 显示剩余生命值
-    //settextcolor(RED);
-    //setbkmode(TRANSPARENT);
-    //char text[20];
-    //sprintf(text, "Lives: %d", player.GetLives());
-    //outtextxy(10, 10, text);
+    // 显示剩余生命值
+    settextcolor(RED);
+    settextstyle(24, 0, "SimHei");
+    setbkmode(TRANSPARENT);
+    char text[20];
+    _stprintf_s(text, "Lives: %d", player.GetLives());
+    outtextxy(100, 100, text);
+    FlushBatchDraw();
+    Sleep(1000);
 }
 
 void UIObserver::GameOver(bool isWin) {
-    //// 显示游戏结束信息
-    //settextcolor(isWin ? GREEN : RED);
-    //settextstyle(24, 0, "SimHei");
-    //outtextxy(100, 100, isWin ? "You Win!" : "Game Over!");
-    //FlushBatchDraw();
-    //Sleep(2000);  // 暂停2秒显示结果
+    // 显示游戏结束信息
+    settextcolor(isWin ? GREEN : RED);
+    settextstyle(24, 0, "SimHei");
+    outtextxy(100, 100, isWin ? "You Win!" : "Game Over!");
+    FlushBatchDraw();
+    Sleep(2000);  // 暂停2秒显示结果
 }
