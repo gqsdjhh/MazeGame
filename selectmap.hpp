@@ -28,19 +28,14 @@ private:
 public:
     // 构造函数，初始化界面尺寸和默认选项
     MapSelector(int width = 600, int height = 400);
-
     // 添加地图选项
     void addMapOption(const std::string& name, int width, int height);
-
     // 显示选择界面并返回选中的索引
     int show();
-
     // 获取选中地图的宽度
     int getSelectedWidth() const;
-
     // 获取选中地图的高度
     int getSelectedHeight() const;
-
     // 获取选中地图的名称
     std::string getSelectedName() const;
 };
